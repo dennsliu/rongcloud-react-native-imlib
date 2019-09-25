@@ -1436,10 +1436,85 @@ RCT_EXPORT_METHOD(getCurrentUserId
 }
 
 - (void)onReceived:(RCMessage *)message left:(int)left object:(id)object {
-  [self sendEventWithName:@"rcimlib-receive-message"
+       NSLog(@"onRongCloudMessageReceived");
+       NSMutableDictionary *body = [self getEmptyBody];
+       NSMutableDictionary *_message = [self getEmptyBody];
+       
+       _message[@"targetId"] = message.targetId;
+       _message[@"senderUserId"] = message.senderUserId;
+       _message[@"messageId"] = [NSString stringWithFormat:@"%ld",message.messageId];
+       _message[@"sentTime"] = @((long long)message.sentTime);
+       _message[@"receivedTime"] = @((long long)message.receivedTime);
+       _message[@"senderUserId"] = message.senderUserId;
+       _message[@"conversationType"] = @((unsigned long)message.conversationType);
+       _message[@"messageDirection"] = @(message.messageDirection);
+       _message[@"objectName"] = message.objectName;
+       _message[@"extra"] = message.extra;
+       
+       if ([message.content isMemberOfClass:[RCTextMessage class]]) {
+           RCTextMessage *textMessage = (RCTextMessage *)message.content;
+           _message[@"type"] = @"text";
+           _message[@"content"] = textMessage.content;
+           _message[@"extra"] = textMessage.extra;
+       }
+       else if([message.content isMemberOfClass:[RCImageMessage class]]) {
+           RCImageMessage *imageMessage = (RCImageMessage *)message.content;
+           _message[@"type"] = @"image";
+           _message[@"imageUrl"] = imageMessage.imageUrl;
+           _message[@"thumbnailImage"] = imageMessage.thumbnailImage;
+           _message[@"extra"] = imageMessage.extra;
+       }
+       else if ([message.content isMemberOfClass:[RCVoiceMessage class]]) {
+           RCVoiceMessage *voiceMessage = (RCVoiceMessage *)message.content;
+           _message[@"type"] = @"voice";
+           _message[@"wavAudioData"] = [self saveWavAudioDataToSandbox:voiceMessage.wavAudioData
+               messageId:message.messageId];
+           _message[@"duration"] = @(voiceMessage.duration);
+           _message[@"extra"] = voiceMessage.extra;
+       }
+       else if ([message.content isMemberOfClass:[RCCommandMessage class]]) {
+           RCCommandMessage *cmdMessage = (RCCommandMessage *)message.content;
+           _message[@"type"] = @"command";
+           _message[@"name"] = cmdMessage.name;
+           _message[@"data"] = cmdMessage.data;
+       }
+       
+       
+       body[@"left"] = [NSString stringWithFormat:@"%d",left];
+       body[@"message"] = _message;
+       body[@"errcode"] = @"0";
+
+       [self sendEventWithName:@"ivan-rcimlib-receive-message" body:body];
+      
+       [self sendEventWithName:@"rcimlib-receive-message"
                      body:@{@"message" : [self fromMessage:message], @"left" : @(left)}];
 }
 
+- (NSString *)saveWavAudioDataToSandbox:(NSData *)data messageId:(NSInteger)msgId{
+    
+    NSFileManager * fileManager = [NSFileManager defaultManager];
+    
+    NSString * documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    
+    NSString * directoryPath = [documentPath stringByAppendingString:@"/ChatMessage"];
+    
+    if(![fileManager fileExistsAtPath:directoryPath]){
+        
+        [fileManager createDirectoryAtPath:directoryPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    
+    NSString * filePath = [directoryPath stringByAppendingString:[NSString stringWithFormat:@"/%ld.wav",msgId]];
+    
+    [fileManager createFileAtPath:filePath contents:data attributes:nil];
+    
+    return filePath;
+}
+
+-(NSMutableDictionary *)getEmptyBody {
+    NSMutableDictionary *body = @{}.mutableCopy;
+    return body;
+}
 - (void)onTypingStatusChanged:(RCConversationType)conversationType
                      targetId:(NSString *)targetId
                        status:(NSArray *)status {
@@ -1839,6 +1914,7 @@ RCT_EXPORT_METHOD(getCurrentUserId
     @"rcimlib-connect",
     @"rcimlib-connection-status",
     @"rcimlib-receive-message",
+    @"ivan-rcimlib-receive-message",
     @"rcimlib-send-message",
     @"rcimlib-typing-status",
     @"rcimlib-read-receipt-received",
