@@ -1716,7 +1716,7 @@ RCT_EXPORT_METHOD(getCurrentUserId
     RCTextMessage *text = (RCTextMessage *)content;
     return @{
       @"objectName" : @"RC:TxtMsg",
-      @"content" : text.content,
+      @"content" : text.content? text.content : @"",
       @"extra" : text.extra ? text.extra : @""
     };
   } else if ([content isKindOfClass:[RCFileMessage class]]) {
