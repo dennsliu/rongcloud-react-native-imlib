@@ -1,0 +1,34 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/redseanet/Documents/project/node_modules/rongcloud-react-native-imlib/lib/android/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-v18/values-v18.xml",
+            "map": [
+                {
+                    "source": "/Users/redseanet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/bb245290f5756e5b0aa9615131fe11a5/res/values-v18/values-v18.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "48",
+                        "endOffsets": "99"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "/Users/redseanet/Documents/project/node_modules/rongcloud-react-native-imlib/lib/android/build/intermediates/res/merged/release/values-v18/values-v18.xml",
+            "map": [
+                {
+                    "source": "/Users/redseanet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/bb245290f5756e5b0aa9615131fe11a5/res/values-v18/values-v18.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "48",
+                        "endOffsets": "99"
+                    }
+                }
+            ]
+        }
+    ]
+}

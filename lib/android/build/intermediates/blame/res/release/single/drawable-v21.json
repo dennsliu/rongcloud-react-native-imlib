@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "/Users/redseanet/Documents/project/node_modules/rongcloud-react-native-imlib/lib/android/build/intermediates/res/merged/release/drawable-v21/abc_btn_colored_material.xml",
+        "source": "/Users/redseanet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/bb245290f5756e5b0aa9615131fe11a5/res/drawable-v21/abc_btn_colored_material.xml"
+    },
+    {
+        "merged": "/Users/redseanet/Documents/project/node_modules/rongcloud-react-native-imlib/lib/android/build/intermediates/res/merged/release/drawable-v21/abc_action_bar_item_background_material.xml",
+        "source": "/Users/redseanet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/bb245290f5756e5b0aa9615131fe11a5/res/drawable-v21/abc_action_bar_item_background_material.xml"
+    },
+    {
+        "merged": "/Users/redseanet/Documents/project/node_modules/rongcloud-react-native-imlib/lib/android/build/intermediates/res/merged/release/drawable-v21/abc_dialog_material_background.xml",
+        "source": "/Users/redseanet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/bb245290f5756e5b0aa9615131fe11a5/res/drawable-v21/abc_dialog_material_background.xml"
+    },
+    {
+        "merged": "/Users/redseanet/Documents/project/node_modules/rongcloud-react-native-imlib/lib/android/build/intermediates/res/merged/release/drawable-v21/notification_action_background.xml",
+        "source": "/Users/redseanet/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/80aede6b8ceb5532dec913ec8126e1be/res/drawable-v21/notification_action_background.xml"
+    },
+    {
+        "merged": "/Users/redseanet/Documents/project/node_modules/rongcloud-react-native-imlib/lib/android/build/intermediates/res/merged/release/drawable-v21/abc_edit_text_material.xml",
+        "source": "/Users/redseanet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/bb245290f5756e5b0aa9615131fe11a5/res/drawable-v21/abc_edit_text_material.xml"
+    },
+    {
+        "merged": "/Users/redseanet/Documents/project/node_modules/rongcloud-react-native-imlib/lib/android/build/intermediates/res/merged/release/drawable-v21/abc_list_divider_material.xml",
+        "source": "/Users/redseanet/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/bb245290f5756e5b0aa9615131fe11a5/res/drawable-v21/abc_list_divider_material.xml"
+    }
+]
