@@ -21,8 +21,12 @@ import io.rong.imlib.model.Conversation.PublicServiceType;
 import io.rong.imlib.model.Message.ReceivedStatus;
 import io.rong.imlib.model.Message.SentStatus;
 import io.rong.imlib.typingmessage.TypingStatus;
+import io.rong.message.CommandMessage;
+import io.rong.message.ImageMessage;
 import io.rong.message.MediaMessageContent;
 import io.rong.message.RecallNotificationMessage;
+import io.rong.message.TextMessage;
+import io.rong.message.VoiceMessage;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -46,7 +50,14 @@ public class RCIMClientModule extends ReactContextBaseJavaModule {
                 WritableMap map = Arguments.createMap();
                 map.putMap("message", toJSON(message));
                 map.putInt("left", left);
+
+                WritableMap ivanMap = Arguments.createMap();
+                WritableMap ivanMsg = formatMessage(message);
+                ivanMap.putMap("message",ivanMsg);
+                ivanMap.putString("left", "0");
+                ivanMap.putString("errcode", "0");
                 eventEmitter.emit("rcimlib-receive-message", map);
+                eventEmitter.emit("ivan-rcimlib-receive-message", ivanMap);
                 return false;
             }
         });
@@ -124,6 +135,55 @@ public class RCIMClientModule extends ReactContextBaseJavaModule {
                 return false;
             }
         });
+    }
+
+    /**
+     * @param message
+     * @return
+     */
+    protected WritableMap formatMessage(Message message) {
+        WritableMap msg = Arguments.createMap();
+        msg.putInt("conversationType", message.getConversationType().getValue());
+        msg.putString("targetId", message.getTargetId());
+        msg.putString("messageId", message.getMessageId() + "");
+        msg.putString("receivedTime", message.getReceivedTime() + "");
+        msg.putString("sentTime", message.getSentTime() + "");
+        msg.putString("senderUserId", message.getSenderUserId());
+        msg.putString("messageUId", message.getUId());
+        msg.putInt("messageDirection", message.getMessageDirection().getValue());
+
+        if (message.getContent() instanceof TextMessage) {
+            TextMessage textMessage = (TextMessage) message.getContent();
+            msg.putString("type", "text");
+            msg.putString("content", textMessage.getContent());
+            msg.putString("extra", textMessage.getExtra());
+        } else if (message.getContent() instanceof ImageMessage) {
+            ImageMessage richContentMessage = (ImageMessage) message.getContent();
+            msg.putString("type", "image");
+            if (richContentMessage != null && richContentMessage.getRemoteUri() != null) {
+                msg.putString("imageUrl", richContentMessage.getRemoteUri().toString());
+            } else {
+                msg.putString("imageUrl", "");
+            }
+            msg.putString("extra", richContentMessage.getExtra());
+        } else if (message.getContent() instanceof VoiceMessage) {
+            VoiceMessage voiceMessage = (VoiceMessage) message.getContent();
+            msg.putString("type", "voice");
+            if (voiceMessage != null && voiceMessage.getUri() != null) {
+                msg.putString("wavAudioData", voiceMessage.getUri().toString());
+            } else {
+                msg.putString("wavAudioData", "");
+            }
+            msg.putString("duration", voiceMessage.getDuration() + "");
+            msg.putString("extra", voiceMessage.getExtra());
+        } else if (message.getContent() instanceof CommandMessage) {
+            CommandMessage cmdMessage = (CommandMessage) message.getContent();
+            msg.putString("type", "command");
+            msg.putString("name", cmdMessage.getName());
+            msg.putString("data", cmdMessage.getData());
+        }
+
+        return msg;
     }
 
     @Nonnull
