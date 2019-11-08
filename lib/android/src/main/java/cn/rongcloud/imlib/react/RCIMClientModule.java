@@ -27,6 +27,8 @@ import io.rong.message.MediaMessageContent;
 import io.rong.message.RecallNotificationMessage;
 import io.rong.message.TextMessage;
 import io.rong.message.VoiceMessage;
+import io.rong.push.RongPushClient;
+import io.rong.push.pushconfig.PushConfig;
 
 import javax.annotation.Nonnull;
 import java.util.*;
