@@ -194,6 +194,11 @@ public class RCIMClientModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void init(String key) {
+        PushConfig config = new PushConfig.Builder()
+                        .enableFCM(true) //配置 FCM 推送
+                        .build();
+                RongPushClient.setPushConfig(config);
+
         eventEmitter = reactContext.getJSModule(RCTDeviceEventEmitter.class);
         RCPushReceiver.eventEmitter = eventEmitter;
         RongIMClient.init(reactContext, key);
